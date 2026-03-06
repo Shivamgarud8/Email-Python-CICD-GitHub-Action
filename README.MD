@@ -158,9 +158,8 @@ jobs:
 GitHub Actions sends a POST request to Jenkins using the curl command.  
 This request triggers the Jenkins pipeline remotely.
 
-![GitHub API Trigger](jen/appi.png)
+![GitHub API Trigger](jen/git.png)
 
-![GitHub Workflow Execution](jen/appi2.png)
 
 ---
 
@@ -175,15 +174,16 @@ Pipeline stages include:
 - Running the Python Flask application
 - Deploying the application to the server
 
-![Jenkins Pipeline](jen/git.png)
+![Jenkins Dashboard](jen/api.png)
+![GitHub Workflow Execution](jen/api2.png)
 
 ---
 
 ## Step 5 — Application Deployment
 
 After successful pipeline execution, the application is deployed automatically on the server.
+![GitHub Workflow Execution](jen/app2.png)
 
-![Deployment Result](jen/j5.png)
 
 ---
 
@@ -194,15 +194,14 @@ After successful pipeline execution, the application is deployed automatically o
 1. Install Jenkins on an AWS EC2 instance
 2. Open the Jenkins Dashboard
 3. Create a new Pipeline Job
-
-![Jenkins Dashboard](jen/jen2.png)
+![Deployment Result](jen/appi2.png)
 
 ---
 
 ## Enabling Remote Trigger
 
 Inside Jenkins Job Configuration:
-
+![Jenkins Dashboard](jen/jen2.png)
 ```
 Build Triggers
 
@@ -212,8 +211,6 @@ Token: jenkins-token
 ```
 
 This token allows GitHub Actions to securely trigger Jenkins jobs.
-
-![Jenkins Trigger Configuration](jen/jen.png)
 
 ---
 
@@ -227,8 +224,6 @@ Credentials used:
 
 - GitHub Repository Access Token
 - SSH Private Key Authentication
-
-![Jenkins Credentials](jen/api2.png)
 
 ![GitHub Token Configuration](jen/token.png)
 
@@ -295,19 +290,3 @@ This architecture reflects modern DevOps practices used in cloud-based applicati
 
 ---
 
-# Author
-
-Shivam Garud
-
-DevOps Engineer  
-Cloud and Automation Enthusiast
-
----
-
-# Support
-
-If you found this project helpful:
-
-- Star the repository
-- Fork the project
-- Share it with the DevOps community
