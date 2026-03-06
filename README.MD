@@ -115,7 +115,6 @@ git commit -m "update"
 git push origin master
 ```
 
-![GitHub Commit](jen/ds2.png)
 
 ---
 
