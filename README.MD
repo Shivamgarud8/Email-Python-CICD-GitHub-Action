@@ -192,7 +192,7 @@ After successful pipeline execution, the application is deployed automatically o
 Inside Jenkins Job Configuration:
 ![Deployment Result](jen/appi2.png)
 ![Deployment Result](jen/jen2.png)
-![Deployment Result](jen/token.png)
+
 ```
 Build Triggers
 
