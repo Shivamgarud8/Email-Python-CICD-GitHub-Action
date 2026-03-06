@@ -12,5 +12,5 @@ jobs:
     steps:
       - name: Trigger Jenkins Job
         run: |
-          curl -X POST "http://YOUR_JENKINS_IP:8080/job/JOB_NAME/build" \
+          curl -X POST "http://54.176.130.253:8080/job/email/build" \
           --user krinjal:11c5ccc2dda277030e2d08164b5359e2f7
