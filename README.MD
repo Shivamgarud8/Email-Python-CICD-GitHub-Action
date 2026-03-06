@@ -146,25 +146,15 @@ jobs:
           curl -X POST http://YOUR_JENKINS_IP:8080/job/email/build?token=jenkins-token
 ```
 
-📸 Screenshot
-
-```
 ![jenkins](jen/git.png)
-
-
----
 
 ## Step 3 — GitHub Actions Sends Request to Jenkins
 
 GitHub Actions uses **curl API** to send a **POST request** to Jenkins.
 
 This triggers the Jenkins pipeline automatically.
-
-📸 Screenshot
-
-```
-images/github-actions-run.png
-```
+![jenkins](appi/.png)
+![jenkins](appi2/.png)
 
 ---
 
@@ -179,11 +169,7 @@ Pipeline tasks include:
 - Running Python application
 - Deploying the application
 
-📸 Screenshot
 
-```
-images/jenkins-pipeline.png
-```
 
 ---
 
