@@ -107,12 +107,8 @@ git add .
 git commit -m "update"
 git push origin master
 ```
-
-📸 Screenshot
-
-```
 ![jenkins](jen/ds2.png)
-```
+
 
 ---
 
