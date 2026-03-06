@@ -1,9 +1,9 @@
-name: Trigger Jenkins Deployment
+name: Trigger Jenkins Pipeline
 
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   trigger-jenkins:
@@ -12,6 +12,4 @@ jobs:
     steps:
       - name: Trigger Jenkins Job
         run: |
-          echo "Triggering Jenkins Pipeline..."
-          curl -X POST "http://54.176.130.253:8080/job/email/build" \
-          --user "${{ secrets.JENKINS_USER }}:${{ secrets.JENKINS_TOKEN }}"
+          curl -X POST http://54.176.130.253:8080/job/email/build?token=jenkins-token
