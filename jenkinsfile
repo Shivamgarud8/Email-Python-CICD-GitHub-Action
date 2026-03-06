@@ -25,11 +25,11 @@ pipeline {
                 sshagent(credentials: ["${CREDENTIAL_ID}"]) {
 
                     sh """
-                    echo "📂 Creating directory on EC2..."
+                    echo "📂 Creating project directory..."
                     ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_IP} "mkdir -p ${APP_DIR}"
 
                     echo "📦 Uploading project files..."
-                    scp -o StrictHostKeyChecking=no -r * ${EC2_USER}@${EC2_IP}:${APP_DIR}/
+                    scp -o StrictHostKeyChecking=no -r app.py requirements.txt templates Dockerfile README.MD ${EC2_USER}@${EC2_IP}:${APP_DIR}/
 
                     echo "⚙️ Installing dependencies and starting app..."
                     ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_IP} "
@@ -38,6 +38,7 @@ pipeline {
                         sudo apt update -y
                         sudo apt install -y python3-pip python3-venv
 
+                        rm -rf venv
                         python3 -m venv venv
                         . venv/bin/activate
 
@@ -75,14 +76,13 @@ pipeline {
     }
 
     post {
-
         success {
             echo "🎉 Deployment successful!"
             echo "🌐 Visit: http://${EC2_IP}:${PORT}"
         }
 
         failure {
-            echo "❌ Deployment failed! Check Jenkins logs."
+            echo "❌ Deployment failed! Check logs."
         }
     }
 }
