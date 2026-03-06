@@ -24,8 +24,10 @@ pipeline {
                 sh '''
                 sudo apt-get update -y
                 sudo apt-get install -y python3 python3-venv python3-pip
+
                 python3 -m venv venv
                 . venv/bin/activate
+
                 pip install --upgrade pip
                 pip install -r requirements.txt
                 '''
@@ -35,21 +37,22 @@ pipeline {
         stage('Deploy to EC2') {
             steps {
                 echo "🚀 Deploying application..."
-                sshagent(credentials: [CREDENTIAL_ID]) {
 
-                    sh '''
-                    ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_IP} "mkdir -p ${APP_DIR}"
+                sshagent([CREDENTIAL_ID]) {
+
+                    sh """
+                    ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_IP} 'mkdir -p ${APP_DIR}'
 
                     scp -o StrictHostKeyChecking=no -r app.py requirements.txt templates images ${EC2_USER}@${EC2_IP}:${APP_DIR}/
 
-                    ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_IP} "bash -c '
+                    ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_IP} << EOF
                         cd ${APP_DIR}
 
                         sudo apt update -y
                         sudo apt install -y python3-pip python3-venv
 
                         python3 -m venv venv
-                        . venv/bin/activate
+                        source venv/bin/activate
 
                         pip install --upgrade pip
                         pip install -r requirements.txt
@@ -58,8 +61,8 @@ pipeline {
                         pkill gunicorn || true
 
                         nohup gunicorn -w 4 -b 0.0.0.0:${PORT} app:app > app.log 2>&1 &
-                    '"
-                    '''
+                    EOF
+                    """
                 }
             }
         }
@@ -67,10 +70,14 @@ pipeline {
         stage('Health Check') {
             steps {
                 echo "🩺 Checking application..."
-                script {
-                    def result = sh(script: "curl -s -o /dev/null -w '%{http_code}' http://${EC2_IP}:${PORT}/", returnStdout: true).trim()
 
-                    if (result != '200') {
+                script {
+                    def result = sh(
+                        script: "curl -s -o /dev/null -w '%{http_code}' http://${EC2_IP}:${PORT}/",
+                        returnStdout: true
+                    ).trim()
+
+                    if (result != "200") {
                         error("❌ Application is not reachable")
                     } else {
                         echo "✅ Application is running successfully!"
@@ -81,6 +88,7 @@ pipeline {
     }
 
     post {
+
         success {
             echo "🎉 Deployment successful!"
         }
