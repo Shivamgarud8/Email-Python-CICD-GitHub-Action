@@ -1,54 +1,86 @@
 from flask import Flask, render_template, request
-import requests
+import pandas as pd
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+import os, uuid
+from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
+UPLOAD_FOLDER = "uploads"
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
-# ✅ OpenWeatherMap API details
-API_KEY = "803f77a96502ec00149f4b07055e5dd5"
-BASE_URL = "https://api.openweathermap.org/data/2.5/weather"
-
-
-@app.route('/')
+@app.route("/", methods=["GET", "POST"])
 def index():
-    """Home page to enter city name"""
-    return render_template('index.html')
+    message = ""
 
+    if request.method == "POST":
+        sender_email = request.form.get("sender_email")
+        password = request.form.get("password")
+        subject = request.form.get("subject")
 
-@app.route('/weather', methods=['POST'])
-def weather():
-    """Fetch and display weather information for the entered city"""
-    city = request.form.get('city', '').strip()
+        csv_file = request.files.get("csvfile")
+        names = request.form.getlist("name[]")
+        emails = request.form.getlist("email[]")
 
-    if not city:
-        return render_template('result.html', error="⚠️ Please enter a city name.", weather=None)
+        filepath = None
+        sent_count = 0
 
-    try:
-        # Call OpenWeatherMap API
-        params = {'q': city, 'appid': API_KEY, 'units': 'metric'}
-        response = requests.get(BASE_URL, params=params)
-        data = response.json()
+        try:
+            # ✅ OPTION 1: CSV upload
+            if csv_file and csv_file.filename:
+                filename = secure_filename(csv_file.filename)
+                filepath = os.path.join(UPLOAD_FOLDER, f"{uuid.uuid4()}_{filename}")
+                csv_file.save(filepath)
+                data = pd.read_csv(filepath)
 
-        # Handle invalid city or API issues
-        if data.get('cod') != 200:
-            message = data.get('message', 'City not found!')
-            return render_template('result.html', error=message.capitalize(), weather=None)
+            # ✅ OPTION 2: Manual Excel-style input
+            else:
+                rows = []
+                for n, e in zip(names, emails):
+                    if n.strip() and e.strip():
+                        rows.append({"name": n.strip(), "email": e.strip()})
 
-        # Extract weather details
-        weather_data = {
-            'city': data['name'],
-            'country': data['sys']['country'],
-            'temperature': round(data['main']['temp'], 1),
-            'description': data['weather'][0]['description'].title(),
-            'humidity': data['main']['humidity'],
-            'wind_speed': data['wind']['speed']
-        }
+                if not rows:
+                    return render_template("index.html", message="❌ Upload CSV or enter data manually")
 
-        return render_template('result.html', weather=weather_data, error=None)
+                data = pd.DataFrame(rows)
 
-    except Exception as e:
-        return render_template('result.html', error=f"❌ Error: {str(e)}", weather=None)
+            # Send emails
+            for i in range(len(data)):
+                msg = MIMEMultipart()
+                msg["From"] = sender_email
+                msg["To"] = data["email"][i]
+                msg["Subject"] = subject
 
+                body = f"""
+Hi {data['name'][i]},
 
-if __name__ == '__main__':
-    # Run app on all interfaces (important for EC2/Jenkins)
-    app.run(host='0.0.0.0', port=5000, debug=True)
+This email was sent using a bulk email web app 🚀
+
+Regards,
+Bulk Mailer
+"""
+                msg.attach(MIMEText(body, "plain"))
+
+                server = smtplib.SMTP("smtp.gmail.com", 587)
+                server.starttls()
+                server.login(sender_email, password)
+                server.sendmail(sender_email, data["email"][i], msg.as_string())
+                server.quit()
+
+                sent_count += 1
+
+            message = f"✅ {sent_count} emails sent successfully!" if sent_count else "❌ No emails sent"
+
+        except Exception as e:
+            message = f"❌ Error: {e}"
+
+        finally:
+            if filepath and os.path.exists(filepath):
+                os.remove(filepath)
+
+    return render_template("index.html", message=message)
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000, debug=True)
