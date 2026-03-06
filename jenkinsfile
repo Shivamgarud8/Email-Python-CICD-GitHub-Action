@@ -43,7 +43,7 @@ pipeline {
                     sh """
                     ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_IP} 'mkdir -p ${APP_DIR}'
 
-                    scp -o StrictHostKeyChecking=no -r app.py requirements.txt templates images ${EC2_USER}@${EC2_IP}:${APP_DIR}/
+                    scp -o StrictHostKeyChecking=no -r app.py requirements.txt templates ${EC2_USER}@${EC2_IP}:${APP_DIR}/
 
                     ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_IP} << EOF
                         cd ${APP_DIR}
