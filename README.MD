@@ -153,8 +153,9 @@ jobs:
 GitHub Actions uses **curl API** to send a **POST request** to Jenkins.
 
 This triggers the Jenkins pipeline automatically.
-![jenkins](appi/.png)
-![jenkins](appi2/.png)
+
+![jenkins](jen/appi.png)
+![jenkins](jen/appi2.png)
 
 ---
 
