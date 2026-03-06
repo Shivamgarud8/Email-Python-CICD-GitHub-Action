@@ -3,8 +3,8 @@ pipeline {
 
     environment {
         EC2_USER = "ubuntu"
-        EC2_IP = "YOUR_EC2_IP"
-        APP_DIR = "/home/ubuntu/flask-weather-app"
+        EC2_IP = "13.52.99.19"
+        APP_DIR = "/home/ubuntu/Email-App"
         CREDENTIAL_ID = "node-app-key"
         PORT = "5000"
     }
