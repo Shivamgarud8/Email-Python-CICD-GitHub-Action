@@ -149,7 +149,7 @@ jobs:
           curl -X POST http://YOUR_JENKINS_IP:8080/job/email/build?token=jenkins-token
 ```
 
-![GitHub Workflow](jen/api.png)
+![GitHub Workflow](jen/git.png)
 
 ---
 
@@ -157,9 +157,6 @@ jobs:
 
 GitHub Actions sends a POST request to Jenkins using the curl command.  
 This request triggers the Jenkins pipeline remotely.
-
-![GitHub API Trigger](jen/git.png)
-
 
 ---
 
@@ -174,34 +171,29 @@ Pipeline stages include:
 - Running the Python Flask application
 - Deploying the application to the server
 
-![Jenkins Dashboard](jen/api.png)
-![GitHub Workflow Execution](jen/api2.png)
-
 ---
 
 ## Step 5 — Application Deployment
 
 After successful pipeline execution, the application is deployed automatically on the server.
-![GitHub Workflow Execution](jen/app2.png)
-
-
 ---
 
 # Jenkins Configuration
 
-## Creating Jenkins Job
+## Confihure Secrets and credential
+![Deployment Result](jen/jen.png)
+![Deployment Result](jen/api2.png)
 
-1. Install Jenkins on an AWS EC2 instance
-2. Open the Jenkins Dashboard
-3. Create a new Pipeline Job
 ![Deployment Result](jen/appi2.png)
+![Deployment Result](jen/api.png)
 
 ---
 
 ## Enabling Remote Trigger
 
 Inside Jenkins Job Configuration:
-![Jenkins Dashboard](jen/jen2.png)
+![Deployment Result](jen/jen2.png)
+![Deployment Result](jen/token.png)
 ```
 Build Triggers
 
