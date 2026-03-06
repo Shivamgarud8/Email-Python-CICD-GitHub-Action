@@ -14,7 +14,7 @@ This project represents a **real-world DevOps workflow used in production enviro
 
 ---
 # Architecture Diagram
-![jenkins](images/d1.png)
+![jenkins](jen/d1.png)
 # Tech Stack
 
 | Technology | Purpose |
@@ -31,7 +31,7 @@ This project represents a **real-world DevOps workflow used in production enviro
 | Curl API | Trigger Jenkins Job |
 
 ---
-
+![jenkins](jen/ds2.png)
 # ⚡ Key Features
 
 - Fully automated CI/CD pipeline
