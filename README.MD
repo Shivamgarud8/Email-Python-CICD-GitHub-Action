@@ -179,11 +179,10 @@ After successful pipeline execution, the application is deployed automatically o
 
 # Jenkins Configuration
 
-## Confihure Secrets and credential
+## Configure Secrets and credential
 ![Deployment Result](jen/jen.png)
 ![Deployment Result](jen/api2.png)
-
-![Deployment Result](jen/appi2.png)
+![Deployment Result](jen/appi.png)
 ![Deployment Result](jen/api.png)
 
 ---
@@ -191,6 +190,7 @@ After successful pipeline execution, the application is deployed automatically o
 ## Enabling Remote Trigger
 
 Inside Jenkins Job Configuration:
+![Deployment Result](jen/appi2.png)
 ![Deployment Result](jen/jen2.png)
 ![Deployment Result](jen/token.png)
 ```
@@ -280,4 +280,18 @@ The implementation removes the need for manual pipeline execution and creates a 
 This architecture reflects modern DevOps practices used in cloud-based application deployment environments.
 
 ---
+
+---
+👩‍🏫 **Guided and Supported by [Trupti Mane Ma’am](https://github.com/iamtruptimane)**  
+---
+
+👨‍💻 **Developed By:**  
+**Shivam Garud**  
+🧠 *DevOps & Cloud Engineer*  
+💼 *DevOps Engineer | CI/CD | Docker | Kubernetes | Terraform | Ansible | AWS | Linux | Cloud Automation | Infrastructure as Code!*  
+🌐 [GitHub Profile](https://github.com/Shivamgarud8)
+🌐 [Medium blog](https://medium.com/@shivam.garud2011)
+🌐 [linkedin](www.linkedin.com/in/shivam-garud)
+🌐 [portfolio](https://shivam-garud.vercel.app/)
+
 
