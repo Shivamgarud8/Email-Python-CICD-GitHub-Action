@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Weather App</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body { 
+      font-family: 'Poppins', sans-serif; 
+      background: linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #fff;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    /* Floating clouds animation */
+    .cloud {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 100px;
+      animation: float 20s infinite ease-in-out;
+    }
+    
+    .cloud:before, .cloud:after {
+      content: '';
+      position: absolute;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 100px;
+    }
+    
+    .cloud1 {
+      width: 120px;
+      height: 40px;
+      top: 20%;
+      left: -120px;
+      animation-delay: 0s;
+    }
+    
+    .cloud1:before {
+      width: 50px;
+      height: 50px;
+      top: -25px;
+      left: 10px;
+    }
+    
+    .cloud1:after {
+      width: 60px;
+      height: 40px;
+      top: -15px;
+      right: 15px;
+    }
+    
+    .cloud2 {
+      width: 100px;
+      height: 35px;
+      top: 60%;
+      left: -100px;
+      animation-delay: 7s;
+    }
+    
+    .cloud2:before {
+      width: 40px;
+      height: 40px;
+      top: -20px;
+      left: 15px;
+    }
+    
+    .cloud2:after {
+      width: 50px;
+      height: 35px;
+      top: -12px;
+      right: 10px;
+    }
+    
+    .cloud3 {
+      width: 140px;
+      height: 45px;
+      top: 40%;
+      left: -140px;
+      animation-delay: 14s;
+    }
+    
+    .cloud3:before {
+      width: 55px;
+      height: 55px;
+      top: -28px;
+      left: 20px;
+    }
+    
+    .cloud3:after {
+      width: 65px;
+      height: 45px;
+      top: -18px;
+      right: 18px;
+    }
+    
+    @keyframes float {
+      0%, 100% {
+        transform: translateX(0) translateY(0);
+      }
+      50% {
+        transform: translateX(calc(100vw + 200px)) translateY(-20px);
+      }
+    }
+    
+    /* Sparkle animation */
+    .sparkle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: white;
+      border-radius: 50%;
+      animation: sparkle 3s infinite;
+      opacity: 0;
+    }
+    
+    @keyframes sparkle {
+      0%, 100% { opacity: 0; transform: scale(0); }
+      50% { opacity: 1; transform: scale(1); }
+    }
+    
+    .sparkle:nth-child(1) { top: 15%; left: 20%; animation-delay: 0s; }
+    .sparkle:nth-child(2) { top: 25%; left: 80%; animation-delay: 1s; }
+    .sparkle:nth-child(3) { top: 70%; left: 15%; animation-delay: 2s; }
+    .sparkle:nth-child(4) { top: 80%; left: 85%; animation-delay: 0.5s; }
+    .sparkle:nth-child(5) { top: 50%; left: 50%; animation-delay: 1.5s; }
+    
+    .container {
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+      padding: 60px 50px;
+      border-radius: 30px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      animation: fadeIn 1s ease-in;
+      position: relative;
+      z-index: 10;
+    }
+    
+    @keyframes fadeIn {
+      from { 
+        opacity: 0; 
+        transform: translateY(-20px);
+      }
+      to { 
+        opacity: 1; 
+        transform: translateY(0);
+      }
+    }
+    
+    h1 { 
+      font-size: 3em; 
+      margin-bottom: 10px;
+      font-weight: 600;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+      animation: bounce 2s infinite;
+    }
+    
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    
+    p {
+      font-size: 1.1em;
+      margin-bottom: 30px;
+      font-weight: 300;
+      opacity: 0.95;
+    }
+    
+    form { 
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+    
+    input[type="text"] { 
+      padding: 15px 25px; 
+      width: 300px; 
+      border: none; 
+      border-radius: 50px;
+      text-align: center;
+      font-size: 16px;
+      font-family: 'Poppins', sans-serif;
+      background: rgba(255, 255, 255, 0.95);
+      color: #333;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    input[type="text"]:focus {
+      outline: none;
+      transform: scale(1.05);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    }
+    
+    input[type="text"]::placeholder {
+      color: #999;
+    }
+    
+    input[type="submit"] { 
+      padding: 15px 35px; 
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white; 
+      border: none; 
+      border-radius: 50px; 
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Poppins', sans-serif;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+    
+    input[type="submit"]:hover { 
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    }
+    
+    input[type="submit"]:active {
+      transform: translateY(0);
+    }
+    
+    /* Sun animation */
+    .sun {
+      position: absolute;
+      top: 30px;
+      right: 30px;
+      width: 80px;
+      height: 80px;
+      background: #FFD700;
+      border-radius: 50%;
+      box-shadow: 0 0 30px rgba(255, 215, 0, 0.6);
+      animation: rotate 20s linear infinite;
+      z-index: 5;
+    }
+    
+    .sun:before {
+      content: '';
+      position: absolute;
+      top: -10px;
+      left: -10px;
+      right: -10px;
+      bottom: -10px;
+      background: radial-gradient(circle, rgba(255, 215, 0, 0.3) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    
+    @keyframes rotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 0.6; }
+      50% { transform: scale(1.2); opacity: 0.3; }
+    }
+    
+    @media (max-width: 600px) {
+      .container {
+        padding: 40px 30px;
+      }
+      
+      h1 {
+        font-size: 2.2em;
+      }
+      
+      input[type="text"] {
+        width: 250px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Animated sun -->
+  <div class="sun"></div>
+  
+  <!-- Floating clouds -->
+  <div class="cloud cloud1"></div>
+  <div class="cloud cloud2"></div>
+  <div class="cloud cloud3"></div>
+  
+  <!-- Sparkles -->
+  <div class="sparkle"></div>
+  <div class="sparkle"></div>
+  <div class="sparkle"></div>
+  <div class="sparkle"></div>
+  <div class="sparkle"></div>
+  
+  <div class="container">
+    <h1>🌤️ Weather Finder</h1>
+    <p>Enter your city name to get the current weather details.</p>
+    <form method="POST" action="/weather">
+      <input type="text" name="city" placeholder="Enter city name" required>
+      <input type="submit" value="Get Weather">
+    </form>
+  </div>
+</body>
+</html>

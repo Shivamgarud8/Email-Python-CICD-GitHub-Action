@@ -1,0 +1,85 @@
+pipeline {
+    agent any
+
+    environment {
+        EC2_USER = "ubuntu"
+        EC2_IP = "172.31.16.200"
+        APP_DIR = "/home/ubuntu/flask-weather-app"
+        CREDENTIAL_ID = "node-app-key"
+        PORT = "5000"
+    }
+
+    stages {
+        stage('Checkout Repository') {
+            steps {
+                echo "📥 Cloning the Flask Weather App repository..."
+                checkout scm
+            }
+        }
+
+        stage('Setup Python Environment (Jenkins)') {
+            steps {
+                echo "🐍 Setting up Python environment on Jenkins..."
+                sh '''
+                sudo apt-get update -y
+                sudo apt-get install -y python3 python3-venv python3-pip
+                python3 -m venv venv
+                . venv/bin/activate   # Use dot instead of source
+                pip install --upgrade pip
+                pip install -r requirements.txt
+                '''
+            }
+        }
+
+        stage('Deploy Application to EC2') {
+            steps {
+                echo "🚀 Deploying Flask Weather App to EC2 Server..."
+                sshagent(credentials: [CREDENTIAL_ID]) {
+                    sh '''
+                    echo "📂 Creating project directory on EC2..."
+                    ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_IP} "mkdir -p ${APP_DIR}"
+
+                    echo "📦 Uploading project files..."
+                    scp -o StrictHostKeyChecking=no -r app.py requirements.txt templates images ${EC2_USER}@${EC2_IP}:${APP_DIR}/
+
+                    echo "⚙️ Installing dependencies and starting Gunicorn server..."
+                    ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_IP} "bash -c '
+                        cd ${APP_DIR}
+                        sudo apt update -y
+                        sudo apt install -y python3-pip python3-venv
+                        python3 -m venv venv
+                        . venv/bin/activate
+                        pip install --upgrade pip
+                        pip install -r requirements.txt
+                        pkill gunicorn || true
+                        nohup gunicorn -w 4 -b 0.0.0.0:${PORT} app:app > app.log 2>&1 &
+                    '"
+                    '''
+                }
+            }
+        }
+
+        stage('Health Check') {
+            steps {
+                echo "🩺 Checking Flask app status..."
+                script {
+                    def result = sh(script: "curl -s -o /dev/null -w '%{http_code}' http://${EC2_IP}:${PORT}/", returnStdout: true).trim()
+                    if (result != '200') {
+                        error("❌ Health check failed! Flask app not reachable.")
+                    } else {
+                        echo "✅ Health check passed! Flask app is running on port ${PORT}."
+                    }
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            echo "🎉 Deployment successful! Visit: http://${EC2_IP}:${PORT}/"
+        }
+        failure {
+            echo "❌ Deployment failed! Check Jenkins logs for details."
+        }
+    }
+}
