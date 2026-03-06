@@ -1,0 +1,16 @@
+name: Trigger Jenkins Build
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  trigger-jenkins:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Trigger Jenkins Job
+        run: |
+          curl -X POST "http://YOUR_JENKINS_IP:8080/job/JOB_NAME/build" \
+          --user krinjal:11c5ccc2dda277030e2d08164b5359e2f7
