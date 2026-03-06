@@ -18,41 +18,28 @@ pipeline {
             }
         }
 
-        stage('Setup Python Environment') {
-            steps {
-                echo "🐍 Preparing Python environment..."
-                sh '''
-                sudo apt-get update -y
-                sudo apt-get install -y python3 python3-venv python3-pip
-
-                python3 -m venv venv
-                . venv/bin/activate
-
-                pip install --upgrade pip
-                pip install -r requirements.txt
-                '''
-            }
-        }
-
         stage('Deploy to EC2') {
             steps {
                 echo "🚀 Deploying application..."
 
-                sshagent([CREDENTIAL_ID]) {
+                sshagent(credentials: ["${CREDENTIAL_ID}"]) {
 
                     sh """
-                    ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_IP} 'mkdir -p ${APP_DIR}'
+                    echo "📂 Creating directory on EC2..."
+                    ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_IP} "mkdir -p ${APP_DIR}"
 
-                    scp -o StrictHostKeyChecking=no -r app.py requirements.txt templates ${EC2_USER}@${EC2_IP}:${APP_DIR}/
+                    echo "📦 Uploading project files..."
+                    scp -o StrictHostKeyChecking=no -r * ${EC2_USER}@${EC2_IP}:${APP_DIR}/
 
-                    ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_IP} << EOF
+                    echo "⚙️ Installing dependencies and starting app..."
+                    ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_IP} "
                         cd ${APP_DIR}
 
                         sudo apt update -y
                         sudo apt install -y python3-pip python3-venv
 
                         python3 -m venv venv
-                        source venv/bin/activate
+                        . venv/bin/activate
 
                         pip install --upgrade pip
                         pip install -r requirements.txt
@@ -61,7 +48,7 @@ pipeline {
                         pkill gunicorn || true
 
                         nohup gunicorn -w 4 -b 0.0.0.0:${PORT} app:app > app.log 2>&1 &
-                    EOF
+                    "
                     """
                 }
             }
@@ -91,10 +78,11 @@ pipeline {
 
         success {
             echo "🎉 Deployment successful!"
+            echo "🌐 Visit: http://${EC2_IP}:${PORT}"
         }
 
         failure {
-            echo "❌ Deployment failed! Check logs."
+            echo "❌ Deployment failed! Check Jenkins logs."
         }
     }
 }
