@@ -5,7 +5,7 @@ pipeline {
         EC2_USER = "ubuntu"
         EC2_IP = "13.52.99.19"
         APP_DIR = "/home/ubuntu/Email-App"
-        CREDENTIAL_ID = "node-app-key"
+        CREDENTIAL_ID = "ubuntu"
         PORT = "5000"
     }
 
