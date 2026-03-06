@@ -13,8 +13,9 @@ This setup removes the need to manually start Jenkins jobs. The entire pipeline 
 This project represents a **real-world DevOps workflow used in production environments**.
 
 ---
-
-# 🧰 Tech Stack
+# Architecture Diagram
+![jenkins](images/d1.png)
+# Tech Stack
 
 | Technology | Purpose |
 |------------|--------|
@@ -110,13 +111,17 @@ git push origin master
 📸 Screenshot
 
 ```
-images/github-commit.png
+![jenkins](jen/ds2.png)
 ```
 
 ---
 
 ## Step 2 — GitHub Actions Workflow Triggers
 
+```
+📸 Screenshot
+```
+![jenkins](jen/api.png)
 GitHub automatically detects the push event and runs the workflow file.
 
 Workflow location:
@@ -148,7 +153,7 @@ jobs:
 📸 Screenshot
 
 ```
-images/github-actions-workflow.png
+![jenkins](jen/git.png)
 ```
 
 ---
@@ -193,7 +198,7 @@ After successful pipeline execution, the application is deployed on the server a
 📸 Screenshot
 
 ```
-images/deployment-result.png
+![jenkins](jen/j5.png)
 ```
 
 ---
@@ -209,7 +214,7 @@ images/deployment-result.png
 📸 Screenshot
 
 ```
-images/jenkins-dashboard.png
+![jenkins](jen/jen2.png)
 ```
 
 ---
@@ -229,7 +234,7 @@ This token allows GitHub Actions to trigger Jenkins securely.
 📸 Screenshot
 
 ```
-images/jenkins-token.png
+![jenkins](jen/jen.png)
 ```
 
 ---
@@ -248,37 +253,18 @@ Credentials used:
 📸 Screenshot
 
 ```
-images/jenkins-credentials.png
-```
-
----
-
-# 🖼 Screenshots Folder
-
-Create a folder named:
+![jenkins](jen/api2.png)
+![jenkins](jen/token.png)
+``
 
 ```
-images/
+for Result 
 ```
 
-Add screenshots like:
-
-```
-images/github-commit.png
-images/github-actions-workflow.png
-images/github-actions-run.png
-images/jenkins-dashboard.png
-images/jenkins-pipeline.png
-images/jenkins-credentials.png
-images/deployment-result.png
-```
-
-Display them using:
-
-```markdown
-![GitHub Actions](images/github-actions-workflow.png)
-```
-
+![jenkins](jen/result.png)
+![jenkins](jen/r1.png)
+![jenkins](jen/r2.png)
+![jenkins](jen/j5.png)
 ---
 
 # 📈 Pipeline Result
