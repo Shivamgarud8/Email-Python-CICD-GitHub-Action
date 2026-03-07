@@ -35,7 +35,7 @@ This project represents a practical DevOps implementation that reflects real-wor
 
 ---
 
-![Workflow](jen/ds2.png)
+![Workflow](jen/ds2.png).
 
 ---
 
