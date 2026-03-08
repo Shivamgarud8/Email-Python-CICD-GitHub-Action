@@ -24,7 +24,7 @@ This project represents a practical DevOps implementation that reflects real-wor
 | Python | Backend Application |
 | Flask | Web Application Framework |
 | Jenkins | CI/CD Pipeline Automation |
-| GitHub | Source Code Management |
+| GitHub | Source Code Managemen |
 | GitHub Actions | Workflow Automation |
 | Git | Version Control |
 | AWS EC2 | Jenkins and Application Hosting |
