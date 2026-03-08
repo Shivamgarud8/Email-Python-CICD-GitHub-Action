@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         EC2_USER = "ubuntu"
-        EC2_IP = "13.52.99.19"
+        EC2_IP = "52.53.223.137"
         APP_DIR = "/home/ubuntu/Email-App"
         CREDENTIAL_ID = "ubuntu"
         PORT = "5000"
