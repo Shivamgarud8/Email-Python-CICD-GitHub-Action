@@ -13,7 +13,7 @@ This project represents a practical DevOps implementation that reflects real-wor
 ---
 
 # Architecture Diagram.
-![Architecture](jen/d1.png)
+![Architecture](jen/d1.png).
 
 ---
 
