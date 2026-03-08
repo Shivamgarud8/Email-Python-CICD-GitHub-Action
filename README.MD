@@ -1,4 +1,4 @@
-# Automated Python CI/CD Pipeline using Jenkins and GitHub Actions
+# Automated Python CI/CD Pipeline using Jenkins and GitHub Actions.
 
 ## Project Overview
 
