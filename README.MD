@@ -50,24 +50,7 @@ This project demonstrates a real-world, production-style multi-cloud data migrat
 ---
 
 ## Architecture Overview
-
-```
-User Browser
-     |
-HTML Form (index.html)
-     |
-PHP Backend — submit.php
-     |
-MariaDB (AWS EC2) — DB: user_app / Table: users
-     |
-Python Script: migrate_to_dynamo.py  (pymysql + boto3)
-     |
-AWS DynamoDB — Region: eu-north-1 / Table: users
-     |
-Python Script: migrate_to_cosmos.py  (boto3 + azure-cosmos)
-     |
-Azure Cosmos DB — Core SQL API / DB: user_db / Container: users
-```
+![img](img/work.png).
 
 Data flow: User input → HTML form → PHP → MariaDB → DynamoDB (AWS) → Cosmos DB (Azure)
 
