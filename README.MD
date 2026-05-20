@@ -1,6 +1,6 @@
 # Automated Python CI/CD Pipeline using Jenkins and GitHub Actions
 
-## Project Overview
+## Project Overview.
 
 This project demonstrates a fully automated CI/CD pipeline for a Python Flask application using Jenkins triggered by GitHub Actions.
 
